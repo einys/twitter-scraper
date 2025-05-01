@@ -2,8 +2,11 @@ package twitterscraper
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	mathrand "math/rand"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -59,7 +62,20 @@ func (s *Scraper) newRequest(method string, url string) (*http.Request, error) {
 	q.Add("ext", "mediaStats,highlightedLabel,hasNftAvatar,voiceInfo,birdwatchPivot,enrichments,superFollowMetadata,unmentionInfo,editControl,collab_control,vibe")
 	req.URL.RawQuery = q.Encode()
 
+	req.Header.Set("X-Client-Transaction-Id", generateTxnID())
+
 	return req, nil
+}
+
+// generateTxnID returns a URL-safe, padding-free 16-byte random string.
+func generateTxnID() string {
+	buf := make([]byte, 16)
+	if _, err := rand.Read(buf); err != nil {
+		for i := range buf {
+			buf[i] = byte(mathrand.Intn(256))
+		}
+	}
+	return base64.RawURLEncoding.EncodeToString(buf)
 }
 
 func getUserTimeline(ctx context.Context, query string, maxProfilesNbr int, fetchFunc fetchProfileFunc) <-chan *ProfileResult {

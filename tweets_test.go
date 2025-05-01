@@ -20,6 +20,39 @@ var cmpOptions = cmp.Options{
 	cmpopts.IgnoreFields(twitterscraper.Tweet{}, "TimeParsed"),
 }
 
+func TestGetSingleTweet(t *testing.T) {
+	if skipAuthTest {
+		t.Skip("Skipping test due to environment variable")
+	}
+	tweet, err := testScraper.GetTweet("1917367341022609778")
+	if err != nil {
+		t.Error(err)
+	} else {
+		if tweet.ID == "" {
+			t.Error("Expected tweet ID is empty")
+		}
+		if tweet.UserID == "" {
+			t.Error("Expected tweet UserID is empty")
+		}
+		if tweet.Username == "" {
+			t.Error("Expected tweet Username is empty")
+		}
+		if tweet.PermanentURL == "" {
+			t.Error("Expected tweet PermanentURL is empty")
+		}
+		if tweet.Text == "" {
+			t.Error("Expected tweet Text is empty")
+		}
+		if tweet.TimeParsed.IsZero() {
+			t.Error("Expected tweet TimeParsed is zero")
+		}
+		if tweet.Timestamp == 0 {
+			t.Error("Expected tweet Timestamp is greater than zero")
+		}
+	}
+
+}
+
 func TestGetTweets(t *testing.T) {
 	count := 0
 	maxTweetsNbr := 100
