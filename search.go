@@ -25,7 +25,7 @@ type SearchTimeline struct {
 	} `json:"data"`
 }
 
-func (timeline *SearchTimeline) parseTweets() ([]*Tweet, string) {
+func (timeline *SearchTimeline) ParseTweets() ([]*Tweet, string) {
 	tweets := make([]*Tweet, 0)
 	cursor := ""
 	for _, instruction := range timeline.Data.SearchByRawQuery.SearchTimeline.Timeline.Instructions {
@@ -180,7 +180,7 @@ func (s *Scraper) FetchSearchTweets(query string, maxTweetsNbr int, cursor strin
 	if err != nil {
 		return nil, "", err
 	}
-	tweets, nextCursor := timeline.parseTweets()
+	tweets, nextCursor := timeline.ParseTweets()
 	return tweets, nextCursor, nil
 }
 
