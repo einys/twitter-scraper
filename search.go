@@ -9,7 +9,7 @@ import (
 
 const searchURL = "https://twitter.com/i/api/graphql/nK1dw4oV3k4w5TdtcAdSww/SearchTimeline"
 
-type searchTimeline struct {
+type SearchTimeline struct {
 	Data struct {
 		SearchByRawQuery struct {
 			SearchTimeline struct {
@@ -25,7 +25,7 @@ type searchTimeline struct {
 	} `json:"data"`
 }
 
-func (timeline *searchTimeline) parseTweets() ([]*Tweet, string) {
+func (timeline *SearchTimeline) parseTweets() ([]*Tweet, string) {
 	tweets := make([]*Tweet, 0)
 	cursor := ""
 	for _, instruction := range timeline.Data.SearchByRawQuery.SearchTimeline.Timeline.Instructions {
@@ -61,7 +61,7 @@ func (timeline *searchTimeline) parseTweets() ([]*Tweet, string) {
 	return tweets, cursor
 }
 
-func (timeline *searchTimeline) parseUsers() ([]*Profile, string) {
+func (timeline *SearchTimeline) parseUsers() ([]*Profile, string) {
 	profiles := make([]*Profile, 0)
 	cursor := ""
 	for _, instruction := range timeline.Data.SearchByRawQuery.SearchTimeline.Timeline.Instructions {
@@ -98,7 +98,7 @@ func (s *Scraper) SearchProfiles(ctx context.Context, query string, maxProfilesN
 }
 
 // getSearchTimeline gets results for a given search query, via the Twitter frontend API
-func (s *Scraper) getSearchTimeline(query string, maxNbr int, cursor string) (*searchTimeline, error) {
+func (s *Scraper) getSearchTimeline(query string, maxNbr int, cursor string) (*SearchTimeline, error) {
 	if !s.isLogged {
 		return nil, errors.New("scraper is not logged in for search")
 	}
@@ -166,7 +166,7 @@ func (s *Scraper) getSearchTimeline(query string, maxNbr int, cursor string) (*s
 	q.Set("fieldToggles", mapToJSONString(fieldToggles))
 	req.URL.RawQuery = q.Encode()
 
-	var timeline searchTimeline
+	var timeline SearchTimeline
 	err = s.RequestAPI(req, &timeline)
 	if err != nil {
 		return nil, err

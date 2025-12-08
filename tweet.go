@@ -99,7 +99,7 @@ func (s *Scraper) CreateTweet(tweet NewTweet) (*Tweet, error) {
 		"standardized_nudges_misinfo":                                             true,
 		"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": true,
 		"responsive_web_graphql_skip_user_profile_image_extensions_enabled":       false,
-		"responsive_web_graphql_timeline_navigation_enabled":                      true,
+		"responsive_web_graphql/_timeline_navigation_enabled":                     true,
 		"responsive_web_enhance_cards_enabled":                                    false,
 	}
 
