@@ -71,14 +71,14 @@ func (s *Scraper) GetTweetReplies(id string, cursor string) ([]*Tweet, []*Thread
 	query.Set("fieldToggles", mapToJSONString(fieldToggles))
 	req.URL.RawQuery = query.Encode()
 
-	var threads threadedConversation
+	var threads ThreadedConversation
 
 	err = s.RequestAPI(req, &threads)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	tweets, cursors := threads.parse(id)
+	tweets, cursors := threads.Parse(id)
 
 	return tweets, cursors, nil
 }

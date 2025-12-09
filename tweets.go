@@ -259,7 +259,7 @@ func (s *Scraper) GetTweet(id string) (*Tweet, error) {
 		query.Set("features", mapToJSONString(features))
 		req.URL.RawQuery = query.Encode()
 
-		var conversation threadedConversation
+		var conversation ThreadedConversation
 
 		// Surprisingly, if bearerToken2 is not set, then animated GIFs are not
 		// present in the response for tweets with a GIF + a photo like this one:
@@ -279,7 +279,7 @@ func (s *Scraper) GetTweet(id string) (*Tweet, error) {
 			return nil, err
 		}
 
-		tweets, _ := conversation.parse(id)
+		tweets, _ := conversation.Parse(id)
 		for _, tweet := range tweets {
 			if tweet.ID == id {
 				return tweet, nil

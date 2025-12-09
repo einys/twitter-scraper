@@ -337,7 +337,7 @@ func (timeline *timelineV2) parseUsers() ([]*Profile, string) {
 	return users, cursor
 }
 
-type threadedConversation struct {
+type ThreadedConversation struct {
 	Data struct {
 		ThreadedConversationWithInjectionsV2 struct {
 			Instructions []struct {
@@ -350,7 +350,7 @@ type threadedConversation struct {
 	} `json:"data"`
 }
 
-func (conversation *threadedConversation) parse(focalTweetID string) ([]*Tweet, []*ThreadCursor) {
+func (conversation *ThreadedConversation) Parse(focalTweetID string) ([]*Tweet, []*ThreadCursor) {
 	var tweets []*Tweet
 	var cursors []*ThreadCursor
 	for _, instruction := range conversation.Data.ThreadedConversationWithInjectionsV2.Instructions {
