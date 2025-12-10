@@ -168,14 +168,14 @@ func getTweetTimeline(ctx context.Context, query string, maxTweetsNbr int, fetch
 	return channel
 }
 
-func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
+func parseLegacyTweet(user *UserV2, tweet *legacyTweet) *Tweet {
 	tweetID := tweet.IDStr
 	if tweetID == "" {
 		return nil
 	}
 	text := expandURLs(tweet.FullText, tweet.Entities.URLs, tweet.ExtendedEntities.Media)
-	username := user.ScreenName
-	name := user.Name
+	username := user.Core.ScreenName
+	name := user.Core.Name
 	tw := &Tweet{
 		ConversationID: tweet.ConversationIDStr,
 		ID:             tweetID,
@@ -212,10 +212,10 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 		tw.RetweetedStatusID = tweet.RetweetedStatusIDStr
 		if tweet.RetweetedStatusResult.Result != nil {
 			var legacy *legacyTweet = &tweet.RetweetedStatusResult.Result.Legacy
-			var user *legacyUser = &tweet.RetweetedStatusResult.Result.Core.UserResults.Result.Legacy
+			var user *UserV2 = &tweet.RetweetedStatusResult.Result.Core.UserResults.Result
 			if tweet.RetweetedStatusResult.Result.Typename == "TweetWithVisibilityResults" {
 				legacy = &tweet.RetweetedStatusResult.Result.Tweet.Legacy
-				user = &tweet.RetweetedStatusResult.Result.Tweet.Core.UserResults.Result.Legacy
+				user = &tweet.RetweetedStatusResult.Result.Tweet.Core.UserResults.Result
 			}
 			tw.RetweetedStatus = parseLegacyTweet(user, legacy)
 			tw.RetweetedStatusID = tw.RetweetedStatus.ID
@@ -230,7 +230,7 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 		tw.Views = views
 	}
 
-	for _, pinned := range user.PinnedTweetIdsStr {
+	for _, pinned := range user.Legacy.PinnedTweetIdsStr {
 		if tweet.IDStr == pinned {
 			tw.IsPin = true
 			break
@@ -360,7 +360,7 @@ func parseLegacyTweet(user *legacyUser, tweet *legacyTweet) *Tweet {
 	return tw
 }
 
-func parseProfile(user legacyUser) Profile {
+func parseProfile(user legacyUserV2) Profile {
 	profile := Profile{
 		Avatar:               user.ProfileImageURLHTTPS,
 		Banner:               user.ProfileBannerURL,
@@ -392,8 +392,8 @@ func parseProfile(user legacyUser) Profile {
 		profile.Joined = &tm
 	}
 
-	if len(user.Entities.URL.Urls) > 0 {
-		profile.Website = user.Entities.URL.Urls[0].ExpandedURL
+	if len(user.Entities.URL.URLs) > 0 {
+		profile.Website = user.Entities.URL.URLs[0].ExpandedURL
 	}
 
 	return profile
@@ -413,7 +413,7 @@ func expandURLs(text string, urls []Url, extendedMediaEntities []ExtendedMedia) 
 
 func parseProfileV2(user userResult) Profile {
 	u := user.Legacy
-	description := expandURLs(u.Description, u.Entities.Description.Urls, []ExtendedMedia{})
+	description := expandURLs(u.Description, u.Entities.Description.URLs, []ExtendedMedia{})
 	profile := Profile{
 		Avatar:             u.ProfileImageURLHTTPS,
 		Banner:             u.ProfileBannerURL,
@@ -445,8 +445,8 @@ func parseProfileV2(user userResult) Profile {
 		profile.Joined = &tm
 	}
 
-	if len(u.Entities.URL.Urls) > 0 {
-		profile.Website = u.Entities.URL.Urls[0].ExpandedURL
+	if len(u.Entities.URL.URLs) > 0 {
+		profile.Website = u.Entities.URL.URLs[0].ExpandedURL
 	}
 
 	return profile

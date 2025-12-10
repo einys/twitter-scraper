@@ -144,13 +144,13 @@ type space struct {
 				ContentType    string `json:"content_type"`
 				CreatorResults struct {
 					Result struct {
-						Typename           string     `json:"__typename"`
-						ID                 string     `json:"id"`
-						RestID             string     `json:"rest_id"`
-						HasGraduatedAccess bool       `json:"has_graduated_access"`
-						IsBlueVerified     bool       `json:"is_blue_verified"`
-						ProfileImageShape  string     `json:"profile_image_shape"`
-						Legacy             legacyUser `json:"legacy"`
+						Typename           string       `json:"__typename"`
+						ID                 string       `json:"id"`
+						RestID             string       `json:"rest_id"`
+						HasGraduatedAccess bool         `json:"has_graduated_access"`
+						IsBlueVerified     bool         `json:"is_blue_verified"`
+						ProfileImageShape  string       `json:"profile_image_shape"`
+						Legacy             legacyUserV2 `json:"legacy"`
 					} `json:"result"`
 				} `json:"creator_results"`
 				ConversationControls        int  `json:"conversation_controls"`
@@ -208,10 +208,10 @@ type space struct {
 								RestID                     string `json:"rest_id"`
 								AffiliatesHighlightedLabel struct {
 								} `json:"affiliates_highlighted_label"`
-								HasGraduatedAccess bool       `json:"has_graduated_access"`
-								IsBlueVerified     bool       `json:"is_blue_verified"`
-								ProfileImageShape  string     `json:"profile_image_shape"`
-								Legacy             legacyUser `json:"legacy"`
+								HasGraduatedAccess bool         `json:"has_graduated_access"`
+								IsBlueVerified     bool         `json:"is_blue_verified"`
+								ProfileImageShape  string       `json:"profile_image_shape"`
+								Legacy             legacyUserV2 `json:"legacy"`
 								TipjarSettings     struct {
 									IsEnabled     bool   `json:"is_enabled"`
 									CashAppHandle string `json:"cash_app_handle"`

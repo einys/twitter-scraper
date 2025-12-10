@@ -50,10 +50,10 @@ type user struct {
 	Data struct {
 		User struct {
 			Result struct {
-				RestID         string     `json:"rest_id"`
-				Legacy         legacyUser `json:"legacy"`
-				Message        string     `json:"message"`
-				IsBlueVerified bool       `json:"is_blue_verified"`
+				RestID         string       `json:"rest_id"`
+				Legacy         legacyUserV2 `json:"legacy"`
+				Message        string       `json:"message"`
+				IsBlueVerified bool         `json:"is_blue_verified"`
 			} `json:"result"`
 		} `json:"user"`
 	} `json:"data"`

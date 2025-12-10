@@ -10,8 +10,8 @@ import (
 // legacy timeline JSON object
 type timelineV1 struct {
 	GlobalObjects struct {
-		Tweets map[string]legacyTweet `json:"tweets"`
-		Users  map[string]legacyUser  `json:"users"`
+		Tweets map[string]legacyTweet  `json:"tweets"`
+		Users  map[string]legacyUserV2 `json:"users"`
 	} `json:"globalObjects"`
 	Timeline struct {
 		Instructions []struct {

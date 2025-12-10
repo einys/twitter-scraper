@@ -9,10 +9,7 @@ import (
 type tweet struct {
 	Core struct {
 		UserResults struct {
-			Result struct {
-				IsBlueVerified bool       `json:"is_blue_verified"`
-				Legacy         legacyUser `json:"legacy"`
-			} `json:"result"`
+			Result UserV2 `json:"result"`
 		} `json:"user_results"`
 	} `json:"core"`
 	Views struct {
@@ -73,15 +70,16 @@ type UnifiedCard struct {
 	} `json:"media_entities"`
 }
 
+// 2025.12.10 수정됨
 func (result *result) parse() *Tweet {
 	if result.NoteTweet.NoteTweetResults.Result.Text != "" {
 		result.Legacy.FullText = result.NoteTweet.NoteTweetResults.Result.Text
 	}
 	var legacy *legacyTweet = &result.Legacy
-	var user *legacyUser = &result.Core.UserResults.Result.Legacy
+	var user *UserV2 = &result.Core.UserResults.Result
 	if result.Typename == "TweetWithVisibilityResults" {
 		legacy = &result.Tweet.Legacy
-		user = &result.Tweet.Core.UserResults.Result.Legacy
+		user = &result.Tweet.Core.UserResults.Result
 	}
 	tw := parseLegacyTweet(user, legacy)
 	if tw == nil {

@@ -32,7 +32,7 @@ func (newTweet *newTweet) parse() *Tweet {
 		tweet.Legacy.FullText = tweet.NoteTweet.NoteTweetResults.Result.Text
 	}
 	var legacy *legacyTweet = &tweet.Legacy
-	var user *legacyUser = &tweet.Core.UserResults.Result.Legacy
+	var user *UserV2 = &tweet.Core.UserResults.Result
 	tw := parseLegacyTweet(user, legacy)
 	if tw == nil {
 		return nil

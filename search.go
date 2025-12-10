@@ -37,10 +37,10 @@ func (timeline *SearchTimeline) ParseTweets() ([]*Tweet, string) {
 			for _, entry := range instruction.Entries {
 				if entry.Content.ItemContent.TweetDisplayType == "Tweet" {
 					var legacy *legacyTweet = &entry.Content.ItemContent.TweetResults.Result.Legacy
-					var user *legacyUser = &entry.Content.ItemContent.TweetResults.Result.Core.UserResults.Result.Legacy
+					var user *UserV2 = &entry.Content.ItemContent.TweetResults.Result.Core.UserResults.Result
 					if entry.Content.ItemContent.TweetResults.Result.Typename == "TweetWithVisibilityResults" {
 						legacy = &entry.Content.ItemContent.TweetResults.Result.Tweet.Legacy
-						user = &entry.Content.ItemContent.TweetResults.Result.Tweet.Core.UserResults.Result.Legacy
+						user = &entry.Content.ItemContent.TweetResults.Result.Tweet.Core.UserResults.Result
 					}
 					if tweet := parseLegacyTweet(user, legacy); tweet != nil {
 						var views = entry.Content.ItemContent.TweetResults.Result.Views.Count
