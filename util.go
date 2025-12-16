@@ -168,6 +168,7 @@ func getTweetTimeline(ctx context.Context, query string, maxTweetsNbr int, fetch
 	return channel
 }
 
+// user avatar 가져오도록 수정됨
 func parseLegacyTweet(user *UserV2, tweet *legacyTweet) *Tweet {
 	tweetID := tweet.IDStr
 	if tweetID == "" {
@@ -176,6 +177,7 @@ func parseLegacyTweet(user *UserV2, tweet *legacyTweet) *Tweet {
 	text := expandURLs(tweet.FullText, tweet.Entities.URLs, tweet.ExtendedEntities.Media)
 	username := user.Core.ScreenName
 	name := user.Core.Name
+	avatar := user.Avatar
 	tw := &Tweet{
 		ConversationID: tweet.ConversationIDStr,
 		ID:             tweetID,
@@ -187,6 +189,7 @@ func parseLegacyTweet(user *UserV2, tweet *legacyTweet) *Tweet {
 		Text:           text,
 		UserID:         tweet.UserIDStr,
 		Username:       username,
+		Avatar:         avatar.ImageURL,
 	}
 
 	tm, err := time.Parse(time.RubyDate, tweet.CreatedAt)

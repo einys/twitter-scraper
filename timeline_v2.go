@@ -77,14 +77,13 @@ func (result *result) parse() *Tweet {
 	}
 	var legacy *legacyTweet = &result.Legacy
 	var user *UserV2 = &result.Core.UserResults.Result
+
 	if result.Typename == "TweetWithVisibilityResults" {
 		legacy = &result.Tweet.Legacy
 		user = &result.Tweet.Core.UserResults.Result
 	}
 	tw := parseLegacyTweet(user, legacy)
-	if tw == nil {
-		return nil
-	}
+
 	if tw.Views == 0 && result.Views.Count != "" {
 		tw.Views, _ = strconv.Atoi(result.Views.Count)
 	}
@@ -110,12 +109,13 @@ func (result *result) parse() *Tweet {
 
 					var bitrate int
 					for _, variant := range media.VideoInfo.Variants {
-						if variant.ContentType == "video/mp4" {
+						switch variant.ContentType {
+						case "video/mp4":
 							if variant.Bitrate > bitrate {
 								bitrate = variant.Bitrate
 								vid.URL = variant.URL
 							}
-						} else if variant.ContentType == "application/x-mpegURL" {
+						case "application/x-mpegURL":
 							vid.HLSURL = variant.URL
 						}
 					}

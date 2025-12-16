@@ -85,6 +85,7 @@ type (
 
 		UserID   string `bson:"user_id,omitempty" json:"user_id,omitempty"`
 		Username string `bson:"username,omitempty" json:"username,omitempty"`
+		Avatar   string `bson:"avatar,omitempty" json:"avatar,omitempty"`
 
 		Videos []Video `bson:"videos,omitempty" json:"videos,omitempty"`
 		Views  int     `bson:"views,omitempty" json:"views,omitempty"`
