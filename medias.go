@@ -6,7 +6,7 @@ import (
 )
 
 // GetTweets returns channel with tweets for a given user.
-func (s *Scraper) GetMediaTweets(ctx context.Context, user string, maxTweetsNbr int) <-chan *TweetResult {
+func (s *Scraper) GetMediaTweets(ctx context.Context, user string, maxTweetsNbr int) <-chan *ScrappedTweetResult {
 	return getTweetTimeline(ctx, user, maxTweetsNbr, s.FetchMediaTweets)
 }
 

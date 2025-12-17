@@ -99,8 +99,8 @@ type (
 		Error   error `bson:"error,omitempty" json:"error,omitempty"`
 	}
 
-	// TweetResult of scrapping.
-	TweetResult struct {
+	// ScrappedTweetResult of scrapping.
+	ScrappedTweetResult struct {
 		Tweet `bson:",inline,omitempty" json:",inline,omitempty"`
 		Error error `bson:"error,omitempty" json:"error,omitempty"`
 	}

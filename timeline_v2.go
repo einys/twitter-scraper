@@ -453,7 +453,7 @@ func (conversation *ThreadedConversation) Parse(focalTweetID string) ([]*Tweet, 
 	return tweets, cursors
 }
 
-type tweetResult struct {
+type TweetResult struct {
 	Data struct {
 		TweetResult struct {
 			Result result `json:"result"`
@@ -461,6 +461,6 @@ type tweetResult struct {
 	} `json:"data"`
 }
 
-func (tweetResult *tweetResult) parse() *Tweet {
+func (tweetResult *TweetResult) parse() *Tweet {
 	return tweetResult.Data.TweetResult.Result.parse()
 }
