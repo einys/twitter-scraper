@@ -461,6 +461,6 @@ type TweetResult struct {
 	} `json:"data"`
 }
 
-func (tweetResult *TweetResult) parse() *Tweet {
+func (tweetResult *TweetResult) Parse() *Tweet {
 	return tweetResult.Data.TweetResult.Result.parse()
 }

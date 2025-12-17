@@ -348,7 +348,7 @@ func (s *Scraper) GetTweet(id string) (*Tweet, error) {
 			return nil, err
 		}
 
-		tweet := result.parse()
+		tweet := result.Parse()
 		return tweet, nil
 	}
 	return nil, fmt.Errorf("tweet with ID %s not found", id)
