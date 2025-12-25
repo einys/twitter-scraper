@@ -71,6 +71,7 @@ type UnifiedCard struct {
 }
 
 // 2025.12.10 수정됨
+// 필드 채우기에 중요한 함수 func parseLegacyTweet(user *UserV2, tweet *legacyTweet) *Tweet {
 func (result *result) parse() *Tweet {
 	if result.NoteTweet.NoteTweetResults.Result.Text != "" {
 		result.Legacy.FullText = result.NoteTweet.NoteTweetResults.Result.Text
@@ -82,7 +83,10 @@ func (result *result) parse() *Tweet {
 		legacy = &result.Tweet.Legacy
 		user = &result.Tweet.Core.UserResults.Result
 	}
-	tw := parseLegacyTweet(user, legacy)
+
+	// --------
+	tw := parseLegacyTweet(user, legacy) // 여기서 선택된 필드만 추출됨
+	// --------
 
 	if tw.Views == 0 && result.Views.Count != "" {
 		tw.Views, _ = strconv.Atoi(result.Views.Count)
@@ -461,6 +465,7 @@ type TweetResult struct {
 	} `json:"data"`
 }
 
+// parseLegacyTweet 이 함수가 메인임
 func (tweetResult *TweetResult) Parse() *Tweet {
 	return tweetResult.Data.TweetResult.Result.parse()
 }
