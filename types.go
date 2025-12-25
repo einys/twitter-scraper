@@ -133,7 +133,16 @@ type (
 			} `bson:"variants,omitempty" json:"variants,omitempty"`
 		} `bson:"video_info,omitempty" json:"video_info,omitempty"`
 	}
-
+	Professional struct {
+		RestID           string `bson:"rest_id,omitempty" json:"rest_id,omitempty"`
+		ProfessionalType string `bson:"professional_type,omitempty" json:"professional_type,omitempty"`
+		// interface{} 대신 구체적인 구조체 슬라이스로 변경
+		Category []struct {
+			ID       int    `bson:"id,omitempty" json:"id,omitempty"`
+			Name     string `bson:"name,omitempty" json:"name,omitempty"`
+			IconName string `bson:"icon_name,omitempty" json:"icon_name,omitempty"`
+		} `bson:"category,omitempty" json:"category,omitempty"`
+	}
 	// UserV2 represents a Twitter user profile.
 	UserV2 struct {
 		ID                       string `bson:"id,omitempty" json:"id,omitempty"`
@@ -174,14 +183,10 @@ type (
 		MediaPermissions struct {
 			CanMediaTag bool `bson:"can_media_tag,omitempty" json:"can_media_tag,omitempty"`
 		} `bson:"media_permissions,omitempty" json:"media_permissions,omitempty"`
-		ParodyCommentaryFanLabel string `bson:"parody_commentary_fan_label,omitempty" json:"parody_commentary_fan_label,omitempty"`
-		ProfileImageShape        string `bson:"profile_image_shape,omitempty" json:"profile_image_shape,omitempty"`
-		Professional             struct {
-			RestID           string   `bson:"rest_id,omitempty" json:"rest_id,omitempty"`
-			ProfessionalType string   `bson:"professional_type,omitempty" json:"professional_type,omitempty"`
-			Category         []string `bson:"category,omitempty" json:"category,omitempty"`
-		} `bson:"professional,omitempty" json:"professional,omitempty"`
-		ProfileBio struct {
+		ParodyCommentaryFanLabel string       `bson:"parody_commentary_fan_label,omitempty" json:"parody_commentary_fan_label,omitempty"`
+		ProfileImageShape        string       `bson:"profile_image_shape,omitempty" json:"profile_image_shape,omitempty"`
+		Professional             Professional `bson:"professional,omitempty" json:"professional,omitempty"`
+		ProfileBio               struct {
 			Description string `bson:"description,omitempty" json:"description,omitempty"`
 		} `bson:"profile_bio,omitempty" json:"profile_bio,omitempty"`
 		Privacy struct {
